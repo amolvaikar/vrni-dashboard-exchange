@@ -1,0 +1,16 @@
+{
+  "default_board_name": "Important Changes in last 24 hours",
+  "description": "",
+  "pins": [
+    {
+      "pin_name": "NSX-T related alerts",
+      "pin_description": "Important open problem alerts related to NSX-T entities",
+      "pin_query": "open problem where Alert Tags =  'NSX-T' group by name, severity"
+    },
+    {
+      "pin_name": "Changes in L3 topology",
+      "pin_description": "This pin will show you any changes in the L3 topology and neighborhood in NSX-T",
+      "pin_query": "change alert where message = 'Entity type VRF properties updated' and changedProperties.propertyPath in ('neighborVRFs', 'defaultNextHopRouterInterfaces')"
+    }
+  ]
+}
