@@ -7,42 +7,45 @@ from types import SimpleNamespace
 
 urllib3.disable_warnings(urllib3.exceptions.InsecureRequestWarning)
 
+
 def open_vrni_public_api_session(url, user_id, password):
-	try:
-		session = requests.Session()
+    try:
+        session = requests.Session()
 
-		session.auth = (user_id, password)
+        session.auth = (user_id, password)
 
-		data = '{"username":"' + user_id + '","password":"' + password + '", "domain": {'
+        data = '{"username":"' + user_id + '","password":"' + password + '", "domain": {'
 
-		domain_type = "LOCAL"
-		domain_value = ""
+        domain_type = "LOCAL"
+        domain_value = ""
 
-		if not "@local" in user_id:
-			#Looks like ad/ldap login
-			domain_type = "LDAP"
-			domain_value = user_id.split("@")[1]
+        if not "@local" in user_id:
+            # Looks like ad/ldap login
+            domain_type = "LDAP"
+            domain_value = user_id.split("@")[1]
 
-		data += '"domain_type" : "' + domain_type + '","value":"' + domain_value + '"}}'
+        data += '"domain_type" : "' + domain_type + '","value":"' + domain_value + '"}}'
 
-		# Instead of requests.get(), you'll use session.get()
-		response = session.post(url+"/api/ni/auth/token", data=data, verify=False, headers={'content-type':'application/json', 'accept':'application/json'})
-		#print response
+        # Instead of requests.get(), you'll use session.get()
+        response = session.post(url + "/api/ni/auth/token", data=data, verify=False,
+                                headers={'content-type': 'application/json', 'accept': 'application/json'})
+        # print response
 
-		if response.status_code != 200:
-			print("Failed to authenticate")
-			return
+        if response.status_code != 200:
+            print("Failed to authenticate")
+            return
 
-		loaded_json = json.loads(response.content)
-		session.headers["Authorization"] = "NetworkInsight " + loaded_json["token"]
-		session.headers["Content-Type"] = "application/json"
-		session.headers["Accept"] = "application/json"
-		session.auth = None
-		return session
-	except requests.exceptions.ConnectionError as connection_exception:
-		print ("Failed to connect to " + url)
-		print (connection_exception.message)
-	return None
+        loaded_json = json.loads(response.content)
+        session.headers["Authorization"] = "NetworkInsight " + loaded_json["token"]
+        session.headers["Content-Type"] = "application/json"
+        session.headers["Accept"] = "application/json"
+        session.auth = None
+        return session
+    except requests.exceptions.ConnectionError as connection_exception:
+        print("Failed to connect to " + url)
+        print(connection_exception.message)
+    return None
+
 
 def open_vrni_private_api_session(url, user_id, password):
     try:
@@ -94,14 +97,17 @@ def create_pinboard_pre_69(session, pinboard_name, pinboard_description):
         "Failed to create pinboard, please check if the pinboard already exists or if you have used admin/member login credentials")
     return None
 
+
 def create_pinboard_post_69(session, pinboard_name, dashboard_description):
     body = '''{{"name": "{0}", "description": "{1}"}}'''.format(dashboard_name, dashboard_description)
-    response = session.post(url+"/api/custom-dashboards", data=body, verify=False)
+    response = session.post(url + "/api/custom-dashboards", data=body, verify=False)
     if response.status_code == 201:
         loaded_json = json.loads(response.content)
         return loaded_json["modelKey"]
-    print("Failed to create dashboard, please check if the dashboard already exists or if you have used admin/member login credentials")
+    print(
+        "Failed to create dashboard, please check if the dashboard already exists or if you have used admin/member login credentials")
     return None
+
 
 def add_pin_to_pinboard_pre_69(session, pinboard_id, pin_name, pin_query):
     body = '''{{"name": "{0}", "query": "{1}"}}'''.format(pin_name, pin_query)
@@ -111,16 +117,19 @@ def add_pin_to_pinboard_pre_69(session, pinboard_id, pin_name, pin_query):
     loaded_json = json.loads(response.content)
     return
 
+
 def add_pin_to_pinboard_post_69(session, dashboard_id, pin_name, pin_query):
     body = '{"id":"' + pin_name + '","query":"' + pin_query + '", "isApplet": false, "dataBlob": "{}", "entities":[]}'
     print(body)
-    response = session.post(url+"/api/custom-dashboards/{}/pins".format(dashboard_id), data=body, verify=False)
+    response = session.post(url + "/api/custom-dashboards/{}/pins".format(dashboard_id), data=body, verify=False)
     print(response)
     loaded_json = json.loads(response.content)
     return
 
+
 def check_options(options):
     return True
+
 
 def read_dashboard_json(dashboard_file):
     with open(dashboard_file, "r") as input_file:
@@ -132,6 +141,8 @@ def read_dashboard_json(dashboard_file):
     except:
         print("Failed while loading the json from " + dashboard_file)
     return dashboard_json_object
+
+
 def is_valid_dashboard_json(json_object):
     json_object_is_valid = False
     try:
@@ -157,6 +168,8 @@ def is_valid_dashboard_json(json_object):
     except:
         print("Failed while loading the json from " + dashboard_file)
     return json_object_is_valid
+
+
 def find_vrni_version(url, user_id, password):
     session = open_vrni_public_api_session(url, user_id, password)
     response = session.get(url + "/api/ni/version", verify=False)
@@ -167,6 +180,7 @@ def find_vrni_version(url, user_id, password):
     session.close()
     return vrni_version
 
+
 def create_dashboard(url, user_id, password, dashboard_json_object, dashboard_name, use_public_api):
     session = None
     if use_public_api:
@@ -175,7 +189,7 @@ def create_dashboard(url, user_id, password, dashboard_json_object, dashboard_na
         session = open_vrni_private_api_session(url, user_id, password)
 
     if session:
-        #create the dashboard
+        # create the dashboard
         dashboard_id = None
         if dashboard_name is None:
             dashboard_name = dashboard_json_object.default_board_name
@@ -190,6 +204,7 @@ def create_dashboard(url, user_id, password, dashboard_json_object, dashboard_na
                 add_pin_to_pinboard_pre_69(session, dashboard_id, pin.pin_name, pin.pin_query)
             else:
                 add_pin_to_pinboard_post_69(session, dashboard_id, pin.pin_name, pin.pin_query)
+
 
 if __name__ == '__main__':
 
@@ -213,7 +228,6 @@ if __name__ == '__main__':
                       dest="dashboard_name",
                       help="[Optional] Name to be used for the dashboard")
 
-
     (options, args) = parser.parse_args()
 
     if options.server is None or options.uid is None or options.password is None:
@@ -230,7 +244,7 @@ if __name__ == '__main__':
     dashboard_name = options.dashboard_name
     dashboard_file = options.dashboard_file
 
-    #Find which vRNI version we are dealing with here
+    # Find which vRNI version we are dealing with here
     vrni_version = find_vrni_version(url, user_id, password)
     if vrni_version is None:
         print("Unable to find vRNI version, terminating.")
@@ -243,7 +257,7 @@ if __name__ == '__main__':
 
     dashboard_json_object = read_dashboard_json(dashboard_file)
     if not is_valid_dashboard_json(dashboard_json_object):
-        print ("Dashboard json is invalid, cant create Dashboard")
+        print("Dashboard json is invalid, cant create Dashboard")
         sys.exit(1)
 
     create_dashboard(url, user_id, password, dashboard_json_object, dashboard_name, use_public_api)
