@@ -98,7 +98,7 @@ def create_pinboard_pre_69(session, pinboard_name, pinboard_description):
     return None
 
 
-def create_pinboard_post_69(session, pinboard_name, dashboard_description):
+def create_pinboard_post_69(session, dashboard_name, dashboard_description):
     body = '''{{"name": "{0}", "description": "{1}"}}'''.format(dashboard_name, dashboard_description)
     response = session.post(url + "/api/custom-dashboards", data=body, verify=False)
     if response.status_code == 201:
@@ -159,7 +159,7 @@ def is_valid_dashboard_json(json_object):
             return json_object_is_valid
 
         for pin in json_object.pins:
-            if not hasattr(pin.pin_name) or not hasattr(pin.pin_description) or not hasattr(pin.pin_query):
+            if not hasattr(pin, "pin_name") or not hasattr(pin, "pin_description") or not hasattr(pin, "pin_query"):
                 print("Invalid pin definition " + pin)
                 json_object_is_valid = False
                 break
@@ -172,7 +172,7 @@ def is_valid_dashboard_json(json_object):
 
 def find_vrni_version(url, user_id, password):
     session = open_vrni_public_api_session(url, user_id, password)
-    response = session.get(url + "/api/ni/version", verify=False)
+    response = session.get(url + "/api/ni/info/version", verify=False)
     vrni_version = None
     if response.status_code == 200:
         loaded_json = json.loads(response.content)
@@ -249,7 +249,7 @@ if __name__ == '__main__':
     if vrni_version is None:
         print("Unable to find vRNI version, terminating.")
         sys.exit(1)
-    [major_version, minor_version] = vrni_version.split(".")
+    [major_version, minor_version, _] = vrni_version.split(".")
     use_public_api = False
     if int(major_version) <= 6:
         if int(minor_version) < 9:
