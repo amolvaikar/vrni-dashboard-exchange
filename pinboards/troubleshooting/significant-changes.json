@@ -1,7 +1,67 @@
 {
   "default_board_name": "Important Changes in last 24 hours",
-  "description": "",
+  "description": "Many datacenter issues are caused by something changing. This dashboard shows the important changes from last 24 hours to help admins figure out if a change could be a root cause behind the issue being investigated.",
   "pins": [
+    {
+      "pin_name": "New NSX-T Transport Node Discovered",
+      "pin_description": "New Transport Nodes discovered",
+      "pin_query": "entity.name of change alert where message = 'Entity type NSX-T Transport Node discovered'"
+    },
+    {
+      "pin_name": "Changed NSX-T Transport Node",
+      "pin_description": "Config changes related to NSX-T Transport Node",
+      "pin_query": "change alert where message = 'Entity type NSX-T Transport Node properties updated' group by entity, changedProperties.propertyPath"
+    },
+    {
+      "pin_name": "Deleted NSX-T Transport Node",
+      "pin_description": "Transport Nodes that are deleted",
+      "pin_query": "entity.name of change alert where message = 'Entity type NSX-T Transport Node deleted'"
+    },
+    {
+      "pin_name": "New Hosts",
+      "pin_description": "New Hosts",
+      "pin_query": "entity.name of change alert where message = 'Entity type Host discovered'"
+    },
+    {
+      "pin_name": "Changed ESX Hosts",
+      "pin_description": "Config changes related to ESX Hosts",
+      "pin_query": "change alert where message = 'Entity type Host properties updated' group by entity, changedProperties.propertyPath"
+    },
+    {
+      "pin_name": "Deleted Hosts",
+      "pin_description": "Hosts that are deleted",
+      "pin_query": "entity.name of change alert where message = 'Entity type Host deleted'"
+    },
+    {
+      "pin_name": "New NSX-T Layer2 Network",
+      "pin_description": "New NSX-T Layer2 Network",
+      "pin_query": "entity.name of change alert where message = 'Entity type NSX-T Layer2 Network discovered'"
+    },
+    {
+      "pin_name": "Changed NSX-T Layer2 Network",
+      "pin_description": "Config changes related to NSX-T Layer2 Network",
+      "pin_query": "change alert where message = 'Entity type NSX-T Layer2 Network properties updated' group by entity, changedProperties.propertyPath"
+    },
+    {
+      "pin_name": "Deleted NSX-T Layer2 Network",
+      "pin_description": "NSX-T Layer2 Network that are deleted",
+      "pin_query": "entity.name of change alert where message = 'Entity type NSX-T Layer2 Network deleted'"
+    },
+    {
+      "pin_name": "New VRFs",
+      "pin_description": "New VRFs",
+      "pin_query": "entity.name of change alert where message = 'Entity type VRF discovered'"
+    },
+    {
+      "pin_name": "Changed VRF",
+      "pin_description": "Config changes related to VRF",
+      "pin_query": "change alert where message = 'Entity type VRF properties updated' group by entity, changedProperties.propertyPath"
+    },
+    {
+      "pin_name": "Deleted VRF",
+      "pin_description": "VRFs that are deleted",
+      "pin_query": "entity.name of change alert where message = 'Entity type VRF deleted'"
+    },
     {
       "pin_name": "NSX-T related alerts",
       "pin_description": "Important open problem alerts related to NSX-T entities",
@@ -11,6 +71,21 @@
       "pin_name": "Changes in L3 topology",
       "pin_description": "This pin will show you any changes in the L3 topology and neighborhood in NSX-T",
       "pin_query": "change alert where message = 'Entity type VRF properties updated' and changedProperties.propertyPath in ('neighborVRFs', 'defaultNextHopRouterInterfaces')"
+    },
+    {
+      "pin_name": "New Internal Services accessed",
+      "pin_description": "New Internal Services accessed",
+      "pin_query": "Flows where Flow Type = 'East-West' and Service Endpoint is set and Service Endpoint not in (list(Service Endpoint) of Flows where Flow Type = 'East-West' until 24 hours ago) group by Service Endpoint "
+    },
+    {
+      "pin_name": "Memory and CPU usage for Transport Nodes",
+      "pin_description": "Memory and CPU usage for Transport Nodes",
+      "pin_query": "series(max(Memory Usage Rate)), series(max(cpu usage)) of NSX-T Transport Nodes group by name"
+    },
+    {
+      "pin_name": "Memory & CPU usage for Hosts",
+      "pin_description": "Memory & CPU usage for Hosts",
+      "pin_query": "series(max(Memory Usage Rate)), series(max(cpu usage)) of host group by name"
     }
   ]
 }
