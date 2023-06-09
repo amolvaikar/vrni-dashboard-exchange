@@ -1,0 +1,37 @@
+{
+  "Comment": "This is a parameterised dashboard definition. '{AppName}' represents the parameter which you will pass to the create-dashboard script so that it can be used while actually creating the pins",
+  "default_board_name": "Network Summary for Application {AppName}",
+  "description": "Summary of various networking metrics for application {AppName}",
+  "pins": [
+    {
+        "pin_name": "L2 Networks Metrics",
+        "pin_description": "",
+        "pin_query": "net.droppedRx.delta.summation.number, net.droppedTx.delta.summation.number, net.packetDropReceived.ratio.average.percent, net.packetDropTransmitted.ratio.average.percent of nsx-t logical switch where in (list(NSX-T Logical Switch) of NSX-T Layer2 Network where NSX Policy Segment in (list(l2network) of vm where application like '{AppName}')) "
+    },
+    {
+      "pin_name": "Logical Port Metrics",
+      "pin_description": "Logical Port Metrics",
+      "pin_query": "net.droppedRx.delta.summation.number, net.droppedTx.delta.summation.number, net.packetDropReceived.ratio.average.percent, net.packetDropTransmitted.ratio.average.percent of NSX-T Logical Port where vm in (vm where application like '{AppName}')"
+    },
+    {
+      "pin_name": "Host Metrics",
+      "pin_description": "Host Metrics",
+      "pin_query": "cpu usage, memory usage, read latency, write latency of host where vm in (vm where application like '{AppName}')"
+    },
+    {
+      "pin_name": "Tier-1 Routers Metrics",
+      "pin_description": "Tier-1 Routers Metrics",
+      "pin_query": "Session count, flow packets of NSX-T Router where vrf in (list(Default gateway Router) of vm where application like '{AppName}') "
+    },
+    {
+      "pin_name": "Router Interfaces on Tier-1 Metrics",
+      "pin_description": "Router Interfaces on Tier-1 Metrics",
+      "pin_query": "net.droppedRx.delta.summation.number, net.droppedTx.delta.summation.number, net.packetDropTx.ratio.average.percent, net.packetDropRx.ratio.average.percent of Router Interface where vrf in (list(Default gateway Router) of vm where application like '{AppName}')"
+    },
+    {
+      "pin_name": "Transport Node Count of Tier-1 Metrics",
+      "pin_description": "Transport Node Count of Tier-1 Metrics",
+      "pin_query": "Memory Usage Rate,  cpu usage, total traffic of NSX-T Transport Node where in (list (Active Transport Node) of NSX-T Service Router where Logical Router.vrf  in (list(Default gateway Router) of vm where application like '{AppName}')) "
+    }
+    ]
+}
