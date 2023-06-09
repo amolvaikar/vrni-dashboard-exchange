@@ -128,6 +128,9 @@ def add_pin_to_pinboard_post_69(session, dashboard_id, pin_name, pin_query):
 
 
 def check_options(options):
+    if options.dashboard_file is not None and options.online_dashboard_file is not None:
+        print("Cant use online as well as offline file at same time")
+        return False
     return True
 
 
@@ -143,7 +146,7 @@ def read_dashboard_json(dashboard_file):
     return dashboard_json_object
 
 
-def is_valid_dashboard_json(json_object):
+def is_valid_dashboard_json(json_object, use_public_api):
     json_object_is_valid = False
     try:
         for attr in ["default_board_name", "description", "pins"]:
@@ -157,6 +160,10 @@ def is_valid_dashboard_json(json_object):
 
         if not json_object_is_valid:
             return json_object_is_valid
+
+        if len(json_object.pins) > 20 and use_public_api:
+            print("WARNING: There are more than 20 pins in this definition, but vRNI version you are using allows only 20 pins per pinboard. "
+                  "This script will use only the first 20 pins from the file")
 
         for pin in json_object.pins:
             if not hasattr(pin, "pin_name") or not hasattr(pin, "pin_description") or not hasattr(pin, "pin_query"):
@@ -205,6 +212,17 @@ def create_dashboard(url, user_id, password, dashboard_json_object, dashboard_na
             else:
                 add_pin_to_pinboard_post_69(session, dashboard_id, pin.pin_name, pin.pin_query)
 
+def download_dashboard_file(sourceurl, destinationfile = "./temp_dashboard.json"):
+    response = requests.get(sourceurl)
+    if response.status_code == 200:
+        with open(destinationfile, 'wb') as file:
+            file.write(response.content)
+        print("Online Dashboard File downloaded successfully.")
+    else:
+        print("Failed to download the online Dashboard file.")
+        return None
+    return destinationfile
+
 
 if __name__ == '__main__':
 
@@ -224,6 +242,10 @@ if __name__ == '__main__':
                       dest="dashboard_file",
                       help="Dashboard definition file to use for creating the new dashboard")
 
+    parser.add_option("-o", "--onlinefile",
+                      dest="online_dashboard_file",
+                      help="URL for Dashboard definition file to use for creating the new dashboard. Can be a file from the pinboard exchange repo")
+
     parser.add_option("-n", "--name",
                       dest="dashboard_name",
                       help="[Optional] Name to be used for the dashboard")
@@ -238,6 +260,9 @@ if __name__ == '__main__':
     if not check_options(options):
         sys.exit(1)
 
+    if options.online_dashboard_file is not None:
+        options.dashboard_file = download_dashboard_file(options.online_dashboard_file)
+
     url = "https://" + options.server
     user_id = options.uid
     password = options.password
@@ -249,6 +274,8 @@ if __name__ == '__main__':
     if vrni_version is None:
         print("Unable to find vRNI version, terminating.")
         sys.exit(1)
+
+    # Find which API we are supposed to use, based on vRNI version
     [major_version, minor_version, _] = vrni_version.split(".")
     use_public_api = False
     if int(major_version) <= 6:
@@ -256,7 +283,7 @@ if __name__ == '__main__':
             use_public_api = True
 
     dashboard_json_object = read_dashboard_json(dashboard_file)
-    if not is_valid_dashboard_json(dashboard_json_object):
+    if not is_valid_dashboard_json(dashboard_json_object, use_public_api):
         print("Dashboard json is invalid, cant create Dashboard")
         sys.exit(1)
 
