@@ -1,0 +1,32 @@
+{
+  "Comment": "This is a parameterised dashboard definition. '{AppName}' represents the parameter which you will pass to the create-dashboard script so that it can be used while actually creating the pins",
+  "default_board_name": "Flow Summary for Application {AppName}",
+  "description": "Summary of Flows for application {AppName}",
+  "pins": [
+    {
+        "pin_name": "Metrics of overall packets for Application",
+        "pin_description": "Metrics of overall packets for Application",
+        "pin_query": "net.totalTx.delta.summation.bytes, net.totalRx.delta.summation.bytes, net.tcpRetransmitedPackets.ratio.average.percent, net.avgFlowTcpRtt.absolute.average.microsecond of Application '{AppName}'"
+    },
+    {
+        "pin_name": "Metrics of overall Traffic Rate for Application",
+        "pin_description": "Metrics of overall Traffic Rate for Application",
+        "pin_query": "net.totalTx.delta.summation.bytes, net.totalRx.delta.summation.bytes, net.tcpRetransmitedPackets.ratio.average.percent, net.avgFlowTcpRtt.absolute.average.microsecond of Application '{AppName}'"
+    },
+    {
+        "pin_name": "Metrics of Internet packets for Application",
+        "pin_description": "Metrics of overall Traffic Rate for Application",
+        "pin_query": "net.internetRx.delta.summation.bytes, net.internetTx.delta.summation.bytes of Application '{AppName}'"
+    },
+    {
+        "pin_name": "Metrics of overall Internet Traffic Rate for Application",
+        "pin_description": "Metrics of overall Internet Traffic Rate for Application",
+        "pin_query": "net.transmittedToInternet.rate.average.kiloBitsPerSecond, net.receivedFromInternet.rate.average.kiloBitsPerSecond of Application '{AppName}'"
+    },
+    {
+        "pin_name": "Metrics of overall packets for Tier",
+        "pin_description": "Metrics of overall packets for Tier",
+        "pin_query": "net.transmittedToInternet.rate.average.kiloBitsPerSecond, net.receivedFromInternet.rate.average.kiloBitsPerSecond of Application '{AppName}'"
+    }
+    ]
+}

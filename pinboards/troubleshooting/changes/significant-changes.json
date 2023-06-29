@@ -86,6 +86,36 @@
       "pin_name": "Memory & CPU usage for Hosts",
       "pin_description": "Memory & CPU usage for Hosts",
       "pin_query": "series(max(Memory Usage Rate)), series(max(cpu usage)) of host group by name"
+    },
+    {
+      "pin_name": "Network Usage for Hosts",
+      "pin_description": "Network Usage for Hosts",
+      "pin_query": "series(max(Max Packet Drop)), series(max(max network rate)) of hosts group by name"
+    },
+    {
+      "pin_name": "Average Read Write IOPS Today",
+      "pin_description": "Average Read Write IOPS Today",
+      "pin_query": "avg(RW IOPS) of Hosts today"
+    },
+    {
+      "pin_name": "Average Read Write IOPS Yesterday",
+      "pin_description": "Average Read Write IOPS Yesterday",
+      "pin_query": "avg(RW IOPS) of Hosts yesterday"
+    },
+    {
+      "pin_name": "Average Read Write IOPS until 3 days ago",
+      "pin_description": "Average Read Write IOPS until 3 days ago",
+      "pin_query": "avg(RW IOPS) of Hosts until 3 days ago"
+    },
+    {
+      "pin_name": "System uptime of hosts",
+      "pin_description": "System uptime of hosts",
+      "pin_query": "System Uptime of host in last 15 minutes"
+    },
+    {
+      "pin_name": "System uptime of transport nodes",
+      "pin_description": "System uptime of transport nodes",
+      "pin_query": "System Uptime of NSX-T Transport Nodes in last 15 minutes"
     }
   ]
 }
