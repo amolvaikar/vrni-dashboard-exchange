@@ -94,13 +94,40 @@ def open_vrni_private_api_session(url, user_id, password):
 ###############################################################
 ################ Pinboard and Pin creation ####################
 ###############################################################
+def get_query(query, name_and_param_dict, index):
+    pattern = r"'([^']*)'"
+    # Find all matches of the pattern in the sentence
+    matches = re.findall(pattern, query)
+
+    # Get the unique values
+    unique_values = set(matches)
+    for value in unique_values:
+        if name_and_param_dict.get(value) is not None:
+            query = query.replace(value, f"{{Param{index}}}")
+        else:
+            if len(name_and_param_dict) > 0:
+                print(len(name_and_param_dict))
+                last_key, last_value = list(name_and_param_dict.items())[-1]
+                # Check if the value is an integer
+                if isinstance(last_value, int):
+                    # Increase the value by 1
+                    index = last_value + 1
+                else:
+                    print("Last value is not an integer.")
+            name_and_param_dict[value] = index
+            query = query.replace(value, f"{{Param{index}}}")
+    return query
+
+
 def export_queries_json_pre_db(pinboard, dashboard_export_file):
     jsondata = {"pins": []}
+    name_and_param_dict = dict()
+    index = 1
     for pins in pinboard['pins']:
         jsondata['pins'].append({
             "pin_name": pins['name'],
             "pin_description": pins['name'],
-            "pin_query": pins['query']
+            "pin_query": get_query(pins['query'], name_and_param_dict, index)
         })
     jsondata["default_board_name"] = pinboard['name']
     jsondata["description"] = pinboard['description']
@@ -151,11 +178,13 @@ def export_queries_json_post_db(session, name, query, dashboard_export_file):
 
 
     jsondata = {"pins": []}
+    name_and_param_dict = dict()
+    index = 1
     for name, query in nameAndQueryDict.items():
         jsondata['pins'].append({
             "pin_name": name,
             "pin_description": name,
-            "pin_query": query
+            "pin_query": get_query(query, name_and_param_dict, index)
         })
 
     jsondata["default_board_name"] = default_board_name
