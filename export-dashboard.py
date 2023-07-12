@@ -103,7 +103,7 @@ def get_query(query, name_and_param_dict, index):
     unique_values = set(matches)
     for value in unique_values:
         if name_and_param_dict.get(value) is not None:
-            query = query.replace(value, f"{{Param{index}}}")
+            query = query.replace(value, f"{{Parameter{index}}}")
         else:
             if len(name_and_param_dict) > 0:
                 print(len(name_and_param_dict))
@@ -115,7 +115,7 @@ def get_query(query, name_and_param_dict, index):
                 else:
                     print("Last value is not an integer.")
             name_and_param_dict[value] = index
-            query = query.replace(value, f"{{Param{index}}}")
+            query = query.replace(value, f"{{Parameter{index}}}")
     return query
 
 
@@ -143,44 +143,44 @@ pass
 
 
 def export_pinboard_pre_db(session, dashboard_name, dashboard_export_file):
-    responseGetAll = session.get(url + "/api/ni/pinboards/", verify=False, headers={'content-type':'application/json', 'accept':'application/json'});
-    print(responseGetAll)
-    if responseGetAll.status_code != 200:
+    response_get_all = session.get(url + "/api/ni/pinboards/", verify=False, headers={'content-type':'application/json', 'accept':'application/json'});
+    print(response_get_all)
+    if response_get_all.status_code != 200:
         print("Failed to get Pinboards")
         return
 
-    data = json.loads(responseGetAll.content)
+    data = json.loads(response_get_all.content)
     print(data)
 
     for pinboard in data["results"]:
-        if (dashboard_name.lower() == "ALL".lower()):
+        if dashboard_name.lower() == "ALL".lower():
             print("Adding" + pinboard["name"])
             export_queries_json_pre_db(pinboard, dashboard_export_file)
-        elif (dashboard_name.lower() == pinboard["name"].lower()):
+        elif dashboard_name.lower() == pinboard["name"].lower():
             print("Adding" + pinboard["name"])
             export_queries_json_pre_db(pinboard, dashboard_export_file)
     return None
 
 
-def export_queries_json_post_db(session, name, query, dashboard_export_file):
+def export_queries_json_post_db(session, query, dashboard_export_file):
     response = session.get(url+"/api/search/query?searchString="+query, verify=False, headers={'content-type':'application/json', 'accept':'application/json'})
     print(response)
 
     loaded_json = json.loads(response.content)
     print(loaded_json)
-    nameAndQueryDict = dict()
+    name_and_query_dict = dict()
     for applets in loaded_json["applets"]:
         default_board_name = applets["name"]
         description = applets["description"]
         for indApplets in applets["applets"]:
-            if (indApplets["type"] == "QUERY"):
-                nameAndQueryDict[indApplets["id"]] = indApplets["querySets"][0]["query"]
+            if indApplets["type"] == "QUERY":
+                name_and_query_dict[indApplets["id"]] = indApplets["querySets"][0]["query"]
 
 
     jsondata = {"pins": []}
     name_and_param_dict = dict()
     index = 1
-    for name, query in nameAndQueryDict.items():
+    for name, query in name_and_query_dict.items():
         jsondata['pins'].append({
             "pin_name": name,
             "pin_description": name,
@@ -199,30 +199,30 @@ def export_queries_json_post_db(session, name, query, dashboard_export_file):
 
 
 def export_pinboard_post_db(session, dashboard_name, dashboard_export_file):
-    responseGetAll = session.get(url + "/api/custom-dashboards/visible", verify=False, headers={'content-type':'application/json', 'accept':'application/json'});
-    print(responseGetAll)
-    if responseGetAll.status_code != 200:
+    response_get_all = session.get(url + "/api/custom-dashboards/visible", verify=False, headers={'content-type':'application/json', 'accept':'application/json'});
+    print(response_get_all)
+    if response_get_all.status_code != 200:
         print("Failed to get Dashboards")
         return
 
-    data = json.loads(responseGetAll.content)
+    data = json.loads(response_get_all.content)
     print(data)
-    nameAndQueryDict = dict();
+    name_and_query_dict = dict();
     for loaded_json in data:
         print(loaded_json["name"])
         print(dashboard_name)
-        if (loaded_json["name"].lower() == "Get Started".lower()):
+        if loaded_json["name"].lower() == "Get Started".lower():
             continue
-        elif (dashboard_name.lower() == "ALL".lower()):
+        elif dashboard_name.lower() == "ALL".lower():
             print("Adding" + loaded_json["name"])
-            nameAndQueryDict[loaded_json["name"]] = loaded_json["query"]
-        elif (dashboard_name.lower() == loaded_json["name"].lower()):
+            name_and_query_dict[loaded_json["name"]] = loaded_json["query"]
+        elif dashboard_name.lower() == loaded_json["name"].lower():
             print("Adding2" + loaded_json["name"])
-            nameAndQueryDict[loaded_json["name"]] = loaded_json["query"]
+            name_and_query_dict[loaded_json["name"]] = loaded_json["query"]
             break
 
-    for name,query in nameAndQueryDict.items():
-        export_queries_json_post_db(session, name, query, dashboard_export_file);
+    for name,query in name_and_query_dict.items():
+        export_queries_json_post_db(session, query, dashboard_export_file);
     return None
 
 
@@ -321,15 +321,15 @@ if __name__ == '__main__':
 
     parser.add_option("-f", "--file",
                       dest="dashboard_export_file",
-                      help="Dashboard definition file to use for exporting the dashboard")
+                      help="Dashboard definition file name to use for exporting the dashboard")
 
     parser.add_option("-n", "--name",
                       dest="dashboard_name",
-                      help="[Optional] Name of the dashboard to be exported")
+                      help="[Optional] Name of the dashboard to be exported. If nothing is specified All dashboards will be exported to the file")
 
     (options, args) = parser.parse_args()
 
-    if options.server is None or options.uid is None or options.password is None:
+    if options.server is None or options.uid is None or options.password is None or options.dashboard_export_file is None:
         parser.print_help()
         print("Insufficient arguments")
         sys.exit(1)
