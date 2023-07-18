@@ -1,0 +1,57 @@
+{
+  "Comment": "This is a parameterised dashboard for monitoring a NSX-T Manager. '{NSXTManagerName}' represents the parameter which you will pass to the create-dashboard script so that it can be used while actually creating the pins",
+  "default_board_name": "NSX-T Manager {NSXTManagerName} Summary",
+  "description": "Summary of NSX-T Manager {NSXTManagerName}",
+  "pins": [
+    {
+      "pin_name": "Critical Open Alerts",
+      "pin_description": "Critical NSX-T System Alerts",
+      "pin_query": "Alert where  status = 'OPEN' and Severity = 'Critical' and Manager  = '{NSXTManagerName}'"
+    },
+    {
+      "pin_name": "Critical NSX-T System Alerts",
+      "pin_description": "Critical NSX-T System Alerts",
+      "pin_query": "Alert where Severity = 'Critical' and status = 'OPEN' and Manager  = '{NSXTManagerName}' and type = 'NSX-T System Alert'"
+    },
+    {
+      "pin_name": "Top 10 Logical Switch by Rx packet drop ratio",
+      "pin_description": "Top 10 Logical Switch by Rx packet drop ratio",
+      "pin_query": "Rx Packet Drop Ratio of NSX-T Logical Switch where manager = '{NSXTManagerName}' order by Rx packet drop ratio desc limit 10"
+    },
+    {
+      "pin_name": "Top 10 Logical Switch by Tx packet drop ratio",
+      "pin_description": "Top 10 Logical Switch by Tx packet drop ratio",
+      "pin_query": "Tx Packet Drop Ratio of NSX-T Logical Switch where manager = '{NSXTManagerName}' order by Tx packet drop ratio desc limit 10"
+    },
+    {
+      "pin_name": "Top 10 Logical Port by Tx packet drop ratio",
+      "pin_description": "Top 10 Logical Port by Tx packet drop ratio",
+      "pin_query": "Tx Packet Drop Ratio of NSX-T Logical Port where manager = '{NSXTManagerName}' order by Tx packet drop ratio desc limit 10"
+    },
+    {
+      "pin_name": "Top 10 Logical Port by Rx packet drop ratio",
+      "pin_description": "Top 10 Logical Port by Rx packet drop ratio",
+      "pin_query": "Rx Packet Drop Ratio of NSX-T Logical Port where manager = '{NSXTManagerName}' order by Rx packet drop ratio desc limit 10"
+    },
+    {
+      "pin_name": "Top 10 Router Interface by Rx packet drop ratio",
+      "pin_description": "Top 10 Router Interface by Rx packet drop ratio",
+      "pin_query": "Rx Packet Drop ratio of Router Interface where manager = '{NSXTManagerName}' order by Rx packet drop ratio desc limit 10"
+    },
+    {
+      "pin_name": "Top 10 Router Interface by Tx packet drop ratio",
+      "pin_description": "Top 10 Router Interface by Tx packet drop ratio",
+      "pin_query": "Tx Packet Drop ratio of Router Interface where manager = '{NSXTManagerName}' order by Tx packet drop ratio desc limit 10"
+    },
+    {
+      "pin_name": "Top 10 Network Interface by Rx packet drop ratio",
+      "pin_description": "Top 10 Network Interface by Rx packet drop ratio",
+      "pin_query": "Rx packet drop ratio of Network Interface where manager = '{NSXTManagerName}' order by Rx packet drop ratio limit 10"
+    },
+    {
+      "pin_name": "Top 10 Network Interface by Tx packet drop ratio",
+      "pin_description": "Top 10 Network Interface by Tx packet drop ratio",
+      "pin_query": "Tx packet drop ratio of Network Interface where manager = '{NSXTManagerName}' order by Tx packet drop ratio limit 10"
+    }
+  ]
+}

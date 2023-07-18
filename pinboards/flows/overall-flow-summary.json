@@ -1,0 +1,57 @@
+{
+  "Comment": "This is a non-parameterised dashboard for monitoring flows",
+  "default_board_name": "Overall Flow Summary",
+  "description": "Summary of Flow of the Overall system",
+  "pins": [
+    {
+      "pin_name": "Top 10 VM pairs by traffic",
+      "pin_description": "Top 10 VM pairs by traffic",
+      "pin_query": "sum(Total traffic), avg(traffic rate), avg(TCP Retransmission Ratio), avg(Average TCP RTT) of top 10 flow group by source vm, destination vm order by sum(total traffic)"
+    },
+    {
+      "pin_name": "Metrics of Top 10 VM pairs by traffic",
+      "pin_description": "Metrics of Top 10 VM pairs by traffic",
+      "pin_query": "series(sum(Total traffic)), series(sum(traffic rate)), series(avg(TCP Retransmission Ratio)), series(avg(Average TCP RTT)) of top 10 flow group by source vm, destination vm order by sum(total traffic)"
+    },
+    {
+      "pin_name": "Top 10 L2 pairs by traffic",
+      "pin_description": "Top 10 L2 pairs by traffic",
+      "pin_query": "sum(Total traffic), avg(traffic rate), avg(TCP Retransmission Ratio), avg(Average TCP RTT) of top 10 flow group by source L2 Network, destination L2 Network order by sum(total traffic)"
+    },
+    {
+      "pin_name": "Metrics of Top 10 L2 pairs by traffic",
+      "pin_description": "Metrics of Top 10 L2 pairs by traffic",
+      "pin_query": "series(sum(Total traffic)), series(sum(traffic rate)), series(avg(TCP Retransmission Ratio)), series(avg(Average TCP RTT)) of top 10 flow group by source L2 Network, destination L2 Network order by sum(total traffic)"
+    },
+    {
+      "pin_name": "Top 10 Host pairs by traffic",
+      "pin_description": "Top 10 Host pairs by traffic",
+      "pin_query": "sum(Total traffic), avg(traffic rate), avg(TCP Retransmission Ratio), avg(Average TCP RTT) of top 10 flow group by source host, destination host order by sum(total traffic)"
+    },
+    {
+      "pin_name": "Metrics of Top 10 Host pairs by traffic",
+      "pin_description": "Metrics of Top 10 Host pairs by traffic",
+      "pin_query": "series(sum(Total traffic)), series(sum(traffic rate)), series(avg(TCP Retransmission Ratio)), series(avg(Average TCP RTT)) of top 10 flow group by source host, destination host order by sum(total traffic)"
+    },
+    {
+      "pin_name": "Top 10 ports by traffic",
+      "pin_description": "Top 10 ports by traffic",
+      "pin_query": "sum(Total traffic), avg(traffic rate), avg(TCP Retransmission Ratio), avg(Average TCP RTT) of top 10 flow group by port order by sum(total traffic)"
+    },
+    {
+      "pin_name": "Top 10 ports by traffic",
+      "pin_description": "Top 10 ports by traffic",
+      "pin_query": "series(sum(Total traffic)), series(sum(traffic rate)), series(avg(TCP Retransmission Ratio)), series(avg(Average TCP RTT)) of top 10 flow group by port order by sum(total traffic)"
+    },
+    {
+      "pin_name": "Top 10 Internet flow per port",
+      "pin_description": "Top 10 Internet flow per port",
+      "pin_query": "sum(Total traffic), avg(traffic rate), avg(TCP Retransmission Ratio), avg(Average TCP RTT) of top 10 flow where flow type = 'Destination is Internet' group by src vm, port order by sum(total traffic)"
+    },
+    {
+      "pin_name": "Metrics of Top 10 Internet flow per port",
+      "pin_description": "Metrics of Top 10 Internet flow per port",
+      "pin_query": "series(sum(Total traffic)), series(sum(traffic rate)), series(avg(TCP Retransmission Ratio)), series(avg(Average TCP RTT)) of top 10 flow where flow type = 'Destination is Internet' group by src vm, port order by sum(total traffic)"
+    }
+  ]
+}

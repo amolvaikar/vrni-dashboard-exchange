@@ -1,0 +1,47 @@
+{
+  "Comment": "This is a parameterised dashboard for monitoring Edge Transport Node of a NSX-T Manager. '{NSXTManagerName}' represents the parameter which you will pass to the create-dashboard script so that it can be used while actually creating the pins",
+  "default_board_name": "NSX-T Manager {NSXTManagerName} Edge Transport Nodes Summary",
+  "description": "Summary of NSX-T Manager {NSXTManagerName} Edge Transport Nodes",
+  "pins": [
+    {
+      "pin_name": "Critical Alerts for NSX-T Edge Transport Node",
+      "pin_description": "Critical Alerts for NSX-T Edge Transport Node",
+      "pin_query": "Alert where Severity = 'Critical' and status = 'OPEN' and Manager  = '{NSXTManagerName}' and  Problem Entity in (NSX-T Transport Node where manager = '{NSXTManagerName}' and node type = 'Edgenode')"
+    },
+    {
+      "pin_name": "Warning Alerts for NSX-T Edge Transport Node",
+      "pin_description": "Warning Alerts for NSX-T Edge Transport Node",
+      "pin_query": "Alert where Severity = 'Warning' and status = 'OPEN' and Manager  = '{NSXTManagerName}' and  Problem Entity in (NSX-T Transport Node where manager = '{NSXTManagerName}' and node type = 'Edgenode')"
+    },
+    {
+      "pin_name": "Top 10 Router Interface by Rx packet drop ratio",
+      "pin_description": "Top 10 Router Interface by Rx packet drop ratio",
+      "pin_query": "Rx Packet Drop ratio of Router Interface where manager = '{NSXTManagerName}' order by Rx packet drop ratio desc limit 10"
+    },
+    {
+      "pin_name": "Top 10 Router Interface by Tx packet drop ratio",
+      "pin_description": "Top 10 Router Interface by Tx packet drop ratio",
+      "pin_query": "Tx Packet Drop ratio of Router Interface where manager = '{NSXTManagerName}' order by Tx packet drop ratio desc limit 10"
+    },
+    {
+      "pin_name": "Top 10 NSX-T Edge Transport Node by memory usage rate",
+      "pin_description": "Top 10 NSX-T Edge Transport Node by memory usage rate",
+      "pin_query": "nsx-t transport node where manager = '{}' and node type = 'Edgenode' order by memory usage rate desc limit 10"
+    },
+    {
+      "pin_name": "Top 10 NSX-T Transport Node by cpu usage",
+      "pin_description": "Top 10 NSX-T Transport Node by cpu usage",
+      "pin_query": "nsx-t transport node where manager = '{}' and node type = 'Edgenode' order by cpu usage desc limit 10"
+    },
+    {
+      "pin_name": "Top 10 NSX-T Transport Node by five minute load average",
+      "pin_description": "Top 10 NSX-T Transport Node by cpu usage",
+      "pin_query": "nsx-t transport node where manager = '{}' and node type = 'Edgenode' order by five minute load average desc limit 10"
+    },
+    {
+      "pin_name": "Top 10 NSX-T Transport Node by fifteen minute load average",
+      "pin_description": "Top 10 NSX-T Transport Node by fifteen minute load average",
+      "pin_query": "nsx-t transport node where manager = '{}' and node type = 'Edgenode' order by fifteen minute load average desc limit 10"
+    }
+  ]
+}

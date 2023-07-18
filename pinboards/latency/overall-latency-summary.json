@@ -1,0 +1,32 @@
+{
+  "Comment": "This is a non-parameterised dashboard for monitoring latency",
+  "default_board_name": "Overall Latency Summary",
+  "description": "Summary of Latency of the Overall system",
+  "pins": [
+    {
+      "pin_name": "TCP RTT, TCP Retransmission Ratio of flows ordered by total traffic group by 10 host",
+      "pin_description": "TCP RTT, TCP Retransmission Ratio of flows ordered by total traffic group by 10 host",
+      "pin_query": "avg(TCP Retransmission Ratio), avg(Average TCP RTT)  of flow group by host order by sum(total traffic) limit 10"
+    },
+    {
+      "pin_name": "Top 10 Host/TN VTEP VTEP Latency",
+      "pin_description": "Top 10 Host/TN VTEP VTEP Latency",
+      "pin_query": "netopa.interfacePairLatency.absolute.maximum.microsecond, netopa.interfacePairLatency.absolute.average.microsecond, virtualInterface1,  virtualInterface2, host1, transportNode1, host2, transportNode2 of interface pair info where virtualInterface1Type = VMKNIC and host is set and netopa.interfacePairLatency.absolute.maximum.microsecond > 0 order by netopa.interfacePairLatency.absolute.maximum.microsecond limit 10"
+    },
+    {
+      "pin_name": "Top 10 Host VNIC VNIC Latency",
+      "pin_description": "Top 10 Host VNIC VNIC Latency",
+      "pin_query": "netopa.interfacePairLatency.absolute.maximum.microsecond, netopa.interfacePairLatency.absolute.average.microsecond,vm1, vm2, virtualInterface1, virtualInterface2  of interface pair info where host is set and virtualInterface1Type != VMKNIC and netopa.interfacePairLatency.absolute.maximum.microsecond > 0 order by netopa.interfacePairLatency.absolute.maximum.microsecond limit 10"
+    },
+    {
+      "pin_name": "Top 10 Host VNIC PNIC Latency",
+      "pin_description": "Top 10 Host VNIC PNIC Latency",
+      "pin_query": "netopa.interfacePnicLatency.absolute.maximum.microsecond, netopa.interfacePnicLatency.absolute.average.microsecond, pnic, virtualInterface, vm of interface pnic pair info where host is set and netopa.interfacePnicLatency.absolute.maximum.microsecond > 0 order by netopa.interfacePnicLatency.absolute.maximum.microsecond limit 10"
+    },
+    {
+      "pin_name": "Host PNIC VNIC Latency",
+      "pin_description": "Host PNIC VNIC Latency",
+      "pin_query": "netopa.pnicInterfaceLatency.absolute.maximum.microsecond , netopa.pnicInterfaceLatency.absolute.average.microsecond, pnic, virtualInterface, vm of interface pnic pair info where host is set and netopa.pnicInterfaceLatency.absolute.maximum.microsecond > 0 order by netopa.pnicInterfaceLatency.absolute.maximum.microsecond limit 10"
+    }
+  ]
+}
