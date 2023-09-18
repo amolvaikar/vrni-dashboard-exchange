@@ -1,0 +1,56 @@
+{
+  "default_board_name": "Alerts Insights",
+  "description": "Overview of actionable alerts in vRNI to help user prioritize their work and alleviate alert fatigue",
+  "pins": [
+    {
+      "pin_name": "Total",
+      "pin_description": "Total actionable problems",
+      "pin_query": "count of open problems where Archived = false"
+    },
+    {
+      "pin_name": "Total in 24 hours",
+      "pin_description": "Total actionable problems in last 24 hours",
+      "pin_query": "count of new alerts where Archived = false and status = 'OPEN' in last 24 hours"
+    },
+    {
+      "pin_name": "Count by severity",
+      "pin_description": "Count of problems by severity",
+      "pin_query": "count of alerts where Archived = false and status = 'OPEN' group by severity"
+    },
+    {
+      "pin_name": "Count by severity in 24 hours",
+      "pin_description": "Count of problems by severity but in last 24 hours",
+      "pin_query": "count of new alerts where Archived = false and status = 'OPEN' group by severity in last 24 hours"
+    },
+    {
+      "pin_name": "Count by datasource in 24 hours",
+      "pin_description": "Count of problems by data source in last 24 hours",
+      "pin_query": "count of new alerts where Archived = false and status = 'OPEN' group by problem entity.manager in last 24 hours"
+    },
+    {
+      "pin_name": "Count by actual entity in 24 hours",
+      "pin_description": "Count of problems by entity in last 24 hours",
+      "pin_query": "count of new alerts where Archived = false and status = 'OPEN' group by problem entity in last 24 hours"
+    },
+    {
+      "pin_name": "Count of problems for virtual networks in 24 hours",
+      "pin_description": "Count of problems for virtual networks in last 24 hours",
+      "pin_query": "count of new alerts where manager.entity type = 800 or Alert Tags = 'NSX-T' group by Manager, Severity in last 24 hours"
+    },
+    {
+      "pin_name": "Count of problems for virtual compute infrastructure in 24 hours",
+      "pin_description": "Count of problems for virtual compute infrastructure in last 24 hours",
+      "pin_query": "count of new alerts where manager.Entity Type = 8 and Alert Tags != 'NSX-T' group by Manager, Severity in last 24 hours"
+    },
+    {
+      "pin_name": "Count of problems for physical networking infrastructure in 24 hours",
+      "pin_description": "Count of problems for physical networking infrastructure in last 24 hours",
+      "pin_query": "open problems where archived = 'false' and (relatedEntities in (physical device where entity Type in (14, 69, 256) and vendor not in ('F5 Networks, Inc') and not (vendor = 'Cisco Systems, Inc.' and model like 'ASA'))) group by severity"
+    },
+    {
+      "pin_name": "Count of problems for firewalls in 24 hours",
+      "pin_description": "Count of problems for firewalls last 24 hours",
+      "pin_query": "count of new alerts where message like firewall group by name, severity in last 24 hours"
+    }
+  ]
+}
