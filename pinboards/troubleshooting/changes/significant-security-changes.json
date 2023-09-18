@@ -1,0 +1,61 @@
+{
+  "default_board_name": "Important Changes Related to Policy Groups and Firewall in last 24 hours",
+  "description": "Many datacenter issues are caused by something changing. This dashboard shows the important changes related to Security from last 24 hours to help admins figure out if a change could be a root cause behind the issue being investigated.",
+  "pins": [
+    {
+      "pin_name": "New NSX Policy Group Discovered",
+      "pin_description": "New Policy Groups discovered",
+      "pin_query": "change alert where message = 'Entity type NSX Policy Group discovered'"
+    },
+    {
+      "pin_name": "Updated NSX Policy Groups properties",
+      "pin_description": "Changes related to NSX Policy Groups properties",
+      "pin_query": "change alert where message = 'Entity type NSX Policy Group properties updated'"
+    },
+    {
+      "pin_name": "Updated NSX Policy Groups membership",
+      "pin_description": "Changes related to NSX Policy Groups membership",
+      "pin_query": "change alert where message = 'Entity type NSX Policy Group membership updated'"
+    },
+    {
+      "pin_name": "Deleted NSX Policy Groups",
+      "pin_description": "NSX Policy Groups that are deleted",
+      "pin_query": "change alert where message = 'Entity type NSX Policy Group deleted'"
+    },
+    {
+      "pin_name": "New NSX Policy Firewall Rule Discovered",
+      "pin_description": "New Policy Firewall Rule discovered",
+      "pin_query": "change alert where message = 'Entity type NSX Policy Firewall Rule discovered'"
+    },
+    {
+      "pin_name": "Updated NSX Policy Firewall Rule properties",
+      "pin_description": "Changes related to NSX Policy Firewall Rule properties",
+      "pin_query": "change alert where message = 'Entity type NSX Policy Firewall Rule properties updated'"
+    },
+    {
+      "pin_name": "Updated NSX Policy Firewall Rule membership",
+      "pin_description": "Changes related to NSX Policy Firewall Rule membership",
+      "pin_query": "change alert where message = 'Entity type NSX Policy Firewall Rule membership updated'"
+    },
+    {
+      "pin_name": "Deleted NSX Policy Firewall Rule",
+      "pin_description": "NSX Policy Firewall Rule that are deleted",
+      "pin_query": "change alert where message = 'Entity type NSX Policy Firewall Rule deleted'"
+    },
+    {
+      "pin_name": "Deleted NSX Policy Firewall Rule Section",
+      "pin_description": "NSX Policy Firewall Rule Section Deleted",
+      "pin_query": "change alert where message = 'Entity type NSX Policy Firewall Section deleted'"
+    },
+    {
+      "pin_name": "Updated NSX Policy Firewall",
+      "pin_description": "Changes related to NSX Policy Firewall",
+      "pin_query": "change alert where message = 'Entity type NSX Policy Firewall properties updated'"
+    }
+  ]
+}
+
+
+
+
+
