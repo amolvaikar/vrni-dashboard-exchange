@@ -1,0 +1,52 @@
+{
+  "Comment": "Dashboard to monitor the capacity consumption on ESX Hosts",
+  "default_board_name": "Host capacity monitoring",
+  "description": "Dashboard to monitor the capacity consumption on ESX Hosts",
+  "pins": [
+    {
+      "pin_name": "Count of VMs per host",
+      "pin_description": "Count of VMs per host",
+      "pin_query": "count of vm group by Host in last 24 hours"
+    },
+    {
+      "pin_name": "Memory consumption vs total memory of hosts",
+      "pin_description": "Memory consumption vs total memory of hosts",
+      "pin_query": "max(memory usage),  max(serverdataParent.memoryMB) of hosts group by name in last 24 hours"
+    },
+    {
+      "pin_name": "CPU Consumption of hosts",
+      "pin_description": "CPU Consumption of hosts",
+      "pin_query": "max(cpu usage rate) of hosts group by name in last 24 hours"
+    },
+    {
+      "pin_name": "IOPS of hosts",
+      "pin_description": "IOPS of hosts",
+      "pin_query": "max(iops) of hosts group by name in last 24 hours"
+    },
+    {
+      "pin_name": "IOPS of hosts",
+      "pin_description": "IOPS of hosts",
+      "pin_query": "max(iops) of hosts group by name in last 24 hours"
+    },
+    {
+      "pin_name": "Free and used space of datastores",
+      "pin_description": "Free and used space of datastores",
+      "pin_query": "datastore.freespace.absolute.latest.percent of datastore in last hour order by Used Space Percent desc"
+    },
+    {
+      "pin_name": "IOPS of Datastores",
+      "pin_description": "IOPS of Datastores",
+      "pin_query": "datastore order by RW IOPS desc in last 24 hours"
+    },
+    {
+      "pin_name": "Network consumption of Hosts",
+      "pin_description": "Network consumption of Hosts",
+      "pin_query": "max(network usage rate) of hosts group by name in last 24 hours"
+    },
+    {
+      "pin_name": "Network utilisation of pnics of hosts",
+      "pin_description": "Network utilisation of pnics of hosts",
+      "pin_query": "avg(interface utilization) of switch port where device.Entity Type = 4 group by device order by avg(Interface Utilization) desc in last 24 hours"
+    }
+  ]
+}

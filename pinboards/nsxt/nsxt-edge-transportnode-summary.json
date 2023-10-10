@@ -26,22 +26,22 @@
     {
       "pin_name": "Top 10 NSX-T Edge Transport Node by memory usage rate",
       "pin_description": "Top 10 NSX-T Edge Transport Node by memory usage rate",
-      "pin_query": "nsx-t transport node where manager = '{}' and node type = 'Edgenode' order by memory usage rate desc limit 10"
+      "pin_query": "nsx-t transport node where manager = '{NSXTManagerName}' and node type = 'Edgenode' order by memory usage rate desc limit 10"
     },
     {
       "pin_name": "Top 10 NSX-T Transport Node by cpu usage",
       "pin_description": "Top 10 NSX-T Transport Node by cpu usage",
-      "pin_query": "nsx-t transport node where manager = '{}' and node type = 'Edgenode' order by cpu usage desc limit 10"
+      "pin_query": "nsx-t transport node where manager = '{NSXTManagerName}' and node type = 'Edgenode' order by cpu usage desc limit 10"
     },
     {
       "pin_name": "Top 10 NSX-T Transport Node by five minute load average",
       "pin_description": "Top 10 NSX-T Transport Node by cpu usage",
-      "pin_query": "nsx-t transport node where manager = '{}' and node type = 'Edgenode' order by five minute load average desc limit 10"
+      "pin_query": "nsx-t transport node where manager = '{NSXTManagerName}' and node type = 'Edgenode' order by five minute load average desc limit 10"
     },
     {
       "pin_name": "Top 10 NSX-T Transport Node by fifteen minute load average",
       "pin_description": "Top 10 NSX-T Transport Node by fifteen minute load average",
-      "pin_query": "nsx-t transport node where manager = '{}' and node type = 'Edgenode' order by fifteen minute load average desc limit 10"
+      "pin_query": "nsx-t transport node where manager = '{NSXTManagerName}' and node type = 'Edgenode' order by fifteen minute load average desc limit 10"
     }
   ]
 }
