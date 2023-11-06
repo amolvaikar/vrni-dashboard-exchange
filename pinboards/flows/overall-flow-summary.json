@@ -39,8 +39,8 @@
       "pin_query": "sum(Total traffic), avg(traffic rate), avg(TCP Retransmission Ratio), avg(Average TCP RTT) of top 10 flow group by port order by sum(total traffic)"
     },
     {
-      "pin_name": "Top 10 ports by traffic",
-      "pin_description": "Top 10 ports by traffic",
+      "pin_name": "Metrics of Top 10 ports by traffic",
+      "pin_description": "Metrics of Top 10 ports by traffic",
       "pin_query": "series(sum(Total traffic)), series(sum(traffic rate)), series(avg(TCP Retransmission Ratio)), series(avg(Average TCP RTT)) of top 10 flow group by port order by sum(total traffic)"
     },
     {

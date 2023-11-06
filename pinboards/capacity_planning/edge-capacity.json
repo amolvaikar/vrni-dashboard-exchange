@@ -1,0 +1,67 @@
+{
+  "Comment": "This is a parameterised dashboard for monitoring capacity consumption of NSX-T Edge Transport Nodes of a NSX-T Manager. '{NSXTManagerName}' represents the parameter which you will pass to the create-dashboard script so that it can be used while actually creating the pins",
+  "default_board_name": "NSX-T Manager {NSXTManagerName} Edge Transport Nodes Edge Utilization Summary",
+  "description": "Summary of NSX-T Manager {NSXTManagerName} Edge Transport Nodes Utilization",
+  "pins": [
+    {
+      "pin_name": "Maximum value of Total PPS of Edge Transport Node Uplink Interfaces",
+      "pin_description": "Maximum value of Total PPS of Edge Transport Node Uplink Interfaces",
+      "pin_query": "max(series(avg(Total PPS))) of network interfaces where (device.manager = '{NSXTManagerName}' and device.nodeType = 'Edgenode') and isuplink = true group by device"
+    },
+    {
+      "pin_name": "Maximum value of Rx PPS of Edge Transport Node Uplink Interfaces",
+      "pin_description": "Maximum value of Rx PPS of Edge Transport Node Uplink Interfaces",
+      "pin_query": "max(series(avg(Rx PPS))) of network interfaces where (device.manager = '{NSXTManagerName}' and device.nodeType = 'Edgenode') and isuplink = true group by device"
+    },
+    {
+      "pin_name": "Maximum value of Tx PPS of Edge Transport Node Uplink Interfaces",
+      "pin_description": "Maximum value of Tx PPS of Edge Transport Node Uplink Interfaces",
+      "pin_query": "max(series(avg(Tx PPS))) of network interfaces where (device.manager = '{NSXTManagerName}' and device.nodeType = 'Edgenode') and isuplink = true group by device"
+    },
+    {
+      "pin_name": "Maximum value of Total Traffic Rate of Edge Transport Node Uplink Interfaces",
+      "pin_description": "Maximum value of Total Traffic Rate of Edge Transport Node Uplink Interfaces",
+      "pin_query": "max(Maximum Total Network Rate) of network interfaces where (device.manager = '{NSXTManagerName}' and device.nodeType = 'Edgenode') and isuplink = true group by device order by max(Maximum Total Network Rate)"
+    },
+    {
+      "pin_name": "Maximum value of Total Rx Rate of Edge Transport Node Uplink Interfaces",
+      "pin_description": "Maximum value of Total Rx Rate of Edge Transport Node Uplink Interfaces",
+      "pin_query": "max(Network Maximum Rx Rate) of network interfaces where (device.manager = '{NSXTManagerName}' and device.nodeType = 'Edgenode') and isuplink = true group by device order by max(Network Maximum Rx Rate)"
+    },
+    {
+      "pin_name": "Maximum value of Total Tx Rate of Edge Transport Node Uplink Interfaces",
+      "pin_description": "Maximum value of Total Tx Rate of Edge Transport Node Uplink Interfaces",
+      "pin_query": "max(Network Maximum Tx Rate) of network interfaces where (device.manager = '{NSXTManagerName}' and device.nodeType = 'Edgenode') and isuplink = true group by device order by max(Network Maximum Tx Rate)"
+    },
+    {
+      "pin_name": "Maximum value of Total PPS of Edge Transport Node TEP Interfaces",
+      "pin_description": "Maximum value of Total PPS of Edge Transport Node TEP Interfaces",
+      "pin_query": "max(series(avg(Total PPS))) of vtep where (host.manager = '{NSXTManagerName}' and host.transportNode.nodeType = 'Edgenode') group by host.TransportNode"
+    },
+    {
+      "pin_name": "Maximum value of Rx PPS of Edge Transport Node TEP Interfaces",
+      "pin_description": "Maximum value of Rx PPS of Edge Transport Node TEP Interfaces",
+      "pin_query": "max(series(avg(Rx PPS))) of vtep where (host.manager = '{NSXTManagerName}' and host.transportNode.nodeType = 'Edgenode') group by host.TransportNode"
+    },
+    {
+      "pin_name": "Maximum value of Tx PPS of Edge Transport Node TEP Interfaces",
+      "pin_description": "Maximum value of Tx PPS of Edge Transport Node TEP Interfaces",
+      "pin_query": "max(series(avg(Tx PPS))) of vtep where (host.manager = '{NSXTManagerName}' and host.transportNode.nodeType = 'Edgenode') group by host.TransportNode"
+    },
+    {
+      "pin_name": "Maximum value of Total Traffic Rate of Edge Transport Node TEP Interfaces",
+      "pin_description": "Maximum value of Total Traffic Rate of Edge Transport Node TEP Interfaces",
+      "pin_query": "max(Maximum Total Network Rate) of vtep where (host.manager = '{NSXTManagerName}' and host.transportNode.nodeType = 'Edgenode') group by host.TransportNode order by max(Maximum Total Network Rate)"
+    },
+    {
+      "pin_name": "Maximum value of Total Rx Traffic Rate of Edge Transport Node TEP Interfaces",
+      "pin_description": "Maximum value of Total Rx Traffic Rate of Edge Transport Node TEP Interfaces",
+      "pin_query": "max(Network Maximum Rx Rate) of vtep where (host.manager = '{NSXTManagerName}' and host.transportNode.nodeType = 'Edgenode') group by host.TransportNode order by max(Network Maximum Rx Rate)"
+    },
+    {
+      "pin_name": "Maximum value of Total Tx Traffic Rate of Edge Transport Node TEP Interfaces",
+      "pin_description": "Maximum value of Total Tx Traffic Rate of Edge Transport Node TEP Interfaces",
+      "pin_query": "max(Network Maximum Tx Rate) of vtep where (host.manager = '{NSXTManagerName}' and host.transportNode.nodeType = 'Edgenode') group by host.TransportNode order by max(Network Maximum Rx Rate)"
+    }
+  ]
+}
